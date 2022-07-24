@@ -64,7 +64,7 @@ class GetGoods:
 			# 构造URl
 			url = "https://search.jd.com/Search?keyword=" + parse.quote(self.word) + "&enc=utf-8&page=" \
 			      + str(page) + "&pvid=b5fc4258ba424e98b44af29d5e82e15b"
-			
+			print(url)
 			good_list = self.__get(url)
 			# 添加搜索结果
 			for i in range(len(good_list)):
@@ -85,26 +85,26 @@ class GetGoods:
 		res = requests.get(url=url, headers=self.head)
 		
 		s = etree.HTML(res.text)
-		
-		# 查找标题位置
-		title = s.xpath('//*[@id="J_goodsList"]/ul/li/div/div[3]/a/em')
+
+		# 查找标题位置//*[@id="J_goodsList"]/ul/li/div/div[4]/a/em
+		title = s.xpath('//*[@id="J_goodsList"]/ul/li/div/div[4]/a/em')
 		
 		# 转换为全文本
 		title = list(map(to_string, title))
 		
-		# 商品价格
-		price = s.xpath('//*[@id="J_goodsList"]/ul/li/div/div[2]/strong/i/text()')
+		# 商品价格//*[@id="J_goodsList"]/ul/li/div/div[3]/strong/i
+		price = s.xpath('//*[@id="J_goodsList"]/ul/li/div/div[3]/strong/i/text()')
 		
-		# 商品描述
-		describe = s.xpath('//*[@id="J_goodsList"]/ul/li/div/div[3]/a/i/text()')
+		# 商品描述//
+		describe = s.xpath('//*[@id="J_goodsList"]/ul/li/div/div[3]/strong//i/text()')
 		try:
 			describe = list(map(to_string, describe))
 		except TypeError:
 			pass
 		# 店名
-		shop = s.xpath('//*[@id="J_goodsList"]/ul/li/div/div[5]/span/a/text()')
-		# 商品编号
-		goodsUrl = s.xpath('//*[@id="J_goodsList"]/ul/li/div/div[3]/a')
+		shop = s.xpath('//*[@id="J_goodsList"]/ul/li/div/div[7]/span/a/text()')
+		# 商品编号//*[@id="J_goodsList"]/ul/li[1]/div/div[4]/a
+		goodsUrl = s.xpath('//*[@id="J_goodsList"]/ul/li/div/div[4]/a')
 		goodsUrl = list(map(convert_url, goodsUrl))
 		
 		length = [len(title), len(price), len(describe), len(shop), len(goodsUrl)]

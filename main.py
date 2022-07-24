@@ -4,6 +4,6 @@ sys.path.append("model")
 
 import GetGoods
 
-gd = GetGoods.GetGoods("洗衣粉", 1)
+gd = GetGoods.GetGoods("数字油画", 1)
 gd.search()
-gd.save("洗衣粉.xlsx")
+gd.save("数字油画.xlsx")
